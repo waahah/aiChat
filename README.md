@@ -7,6 +7,7 @@ ChatGPT H5移动客户端，借助第三方API实现。
 ## Feature
 
 - 可打包为`apk` 或 `ipa`
+- 支持`pwa`
 - 支持代码高亮显示
 - 支持markdown显示
 - 支持多行文本域
