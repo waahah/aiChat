@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>AI Chat</title>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/github-markdown-css/5.2.0/github-markdown.css"
+          media="(prefers-color-scheme: dark)">
+     <link href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/styles/base16/default-dark.min.css"
+          rel="stylesheet">
+    <link href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/katex.css" rel="stylesheet">
+    <link href="./css/aichat.css?v=9" media="all">
+    <link rel="stylesheet" href="./css/chat.css"/>
+    <link rel="stylesheet" href="./css/amazeui.min.css">
+    <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/marked/4.3.0/marked.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/showdown/2.1.0/showdown.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.4/katex.min.js"></script>
+    <script src="./js/flexible.js"></script>
+    <script src="./js/amazeui.min.js"></script>
+</head>
+<body>
+<header class="header">
+    <a class="back" href="javascript:history.back()"></a>
+    <h5 class="tit">AI Chat</h5>
+    <div class="right"><a href="javascript: void(0)" data-am-modal="{target: '#my-popup'}">音乐</a></div>
+</header>
+<div id="message">
+    <div class="reply">
+        <div class="time">05/22 06:30</div>
+        <div class="msg" style=''>
+            <img src="./images/bot.png" alt="AI"/>
+            <span class="name">AI bot</span>
+            <p class="md">
+                <i clas="msg_input"></i>
+                您好，我是AI认知大模型。能够学习和理解人类的语言，进行聊天互动、回答问题、创作文本等等，高效便捷地帮助人们获取信息、知识和灵感
+            </p>
+        </div>
+    </div>
+
+    <!-- <div class="ask">
+        <div class="time">05/22 06:30</div>
+        <div class="msg">
+            <img src="./images/touxiangm.png" alt=""/>
+            <p class="md">
+                <i clas="msg_input"></i>
+                你好你好你好
+            </p>
+        </div>
+    </div> -->
+</div>
+<div id="footer">
+    <!-- <img src="./images/hua.png" alt=""/> -->
+    <img src="./images/remove.png" id="clearBtn" alt=""/>
+    <input style="display: none;" type="text" placeholder="请输入问题...">
+    <div class="my-input" id="textarea" contenteditable="true"  placeholder="请输入问题..."></div>
+    <p class="send md" id="send">发送</p>
+</div>
+<script src="./js/chat.js" type="text/javascript" charset="utf-8"></script>
+
+<div class="am-modal am-modal-loading am-modal-no-btn am-modal-active" tabindex="-1" id="my-modal-loading"
+    style="margin-top: -51px;">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close="">×</a>
+            正在思考中...
+        </div>
+        <div class="am-modal-bd">
+            <!--<span class="am-icon-spinner am-icon-spin"></span>-->
+            <div class="spinner"></div>
+        </div>
+    </div>
+</div>
+
+<div class="am-dimmer am-active" data-am-dimmer="" ></div>
+
+<div class="am-modal am-modal-confirm am-modal-out" tabindex="-1" id="my-confirm"
+    style="margin-top: -65px;">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">确认要清空聊天记录？</div>
+        <div class="am-modal-bd">本操作不可撤销</div>
+        <div class="am-modal-footer"><span class="am-modal-btn" data-modal-cancel="">取消</span> <span
+                class="am-modal-btn" data-modal-confirm="">确定</span></div>
+    </div>
+</div>
+
+<div class="am-popup am-modal-active" id="my-popup" >
+    <div class="am-popup-inner">
+        <div class="am-popup-hd">
+            <h5 class="am-popup-title">云音乐</h5>
+            <span data-am-modal-close="" class="back" style="margin-top: 0.3rem;width: 30px;"></span>
+        </div>
+        <div class="am-popup-bd">
+            <iframe width="100%" scrolling="no" height="630" align="middle" frameborder="no" src="https://music.waahah.xyz/"
+                hspace="0" vspace="0" marginheight="0" marginwidth="0" name="tv">
+            </iframe>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
