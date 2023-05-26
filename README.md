@@ -2,7 +2,7 @@
 
 ChatGPT H5移动客户端，借助第三方API实现。
 
-**apk下载地址：**  <https://wwgc.lanzouk.com/i0peF0xb34eb> 密码:bd9i
+**apk下载地址：**  <https://wwgc.lanzouk.com/iRF3H0xd2pji> 密码:fsdr
 
 ## Feature
 
