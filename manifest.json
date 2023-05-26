@@ -97,7 +97,8 @@
                 "p12" : "", /*iOS应用打包个人证书，打包配置文件关联的个人证书*/
                 "devices" : "universal", /*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
                 "frameworks" : [], /*调用Native.js调用原生Objective-c API需要引用的FrameWork，如需调用GameCenter，则添加"GameKit.framework"*/
-                "UIBackgroundModes" : "audio"
+                "UIBackgroundModes" : "audio",
+                "idfa" : false
             },
             "google" : {
                 "packagename" : "xyz.waahah.aichat", /*Android应用包名，如io.dcloud.HelloH5*/
@@ -211,7 +212,9 @@
                     "hdpi" : "", /*高分屏启动图片，分辨率：480x762*/
                     "xhdpi" : "", /*720P高分屏启动图片，分辨率：720x1242*/
                     "xxhdpi" : "" /*1080P高分屏启动图片，分辨率：1080x1882*/
-                }
+                },
+                "androidStyle" : "common",
+                "useOriginalMsgbox" : true
             },
             "plugins" : {
                 "share" : {
@@ -225,6 +228,9 @@
                 "push" : {
                     "unipush" : {}
                 }
+            },
+            "ios" : {
+                "dSYMs" : false
             }
         }
     },
