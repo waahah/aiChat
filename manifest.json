@@ -1,10 +1,10 @@
 {
     "@platforms" : [ "android", "iPhone", "iPad" ],
     "id" : "H53824B0F", /*应用的标识*/
-    "name" : "AI Chat", /*应用名称，程序桌面图标名称*/
+    "name" : "AI Chat ", /*应用名称，程序桌面图标名称*/
     "version" : {
-        "name" : "1.1.2", /*应用版本名称*/
-        "code" : 112
+        "name" : "2.1.2", /*应用版本名称*/
+        "code" : 212
     },
     "description" : "一个AI聊天机器人", /*应用描述信息*/
     "icons" : {

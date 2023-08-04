@@ -91,16 +91,23 @@ const toast = (msg, duration) => {
     toastDom.style.cssText = 'padding:2px 15px;min-height: 36px;line-height: 36px;text-align: center;transform: translate(-50%);border-radius: 4px;color: rgb(255, 255, 255);position: fixed;top: 50%;left: 50%;z-index: 9999999;background: rgb(0, 0, 0);font-size: 16px;'
     document.body.appendChild(toastDom);
     setTimeout(function () {
-        var d = 0.5;
+        let d = 0.5;
         toastDom.style.webkitTransition = '-webkit-transform ' + d + 's ease-in, opacity ' + d + 's ease-in';
         toastDom.style.opacity = '0';
         setTimeout(() => { document.body.removeChild(toastDom) }, d * 1000);
     }, duration);
 }
 
-const reply = (headSrc, str) => {
-    var html = `<div class='reply'><div class='msg'><img src='${headSrc}' style='border-radius: ' /><span class='name'>AI bot</span><div class="markdown-body md">${marked.parse(str)}</div></div></div>`;
-    upView(html);
+const reply = (headSrc, str, number) => {
+	let html
+	if(number < 1){
+		html = `<div class='reply'><div class='msg'><img src='${headSrc}' style='border-radius: ' /><span class='name'>AI bot</span><div class="markdown-body md">${marked.parse(str)}</div></div></div>`;
+	}
+    else{
+		html = `<div class='msg'><img src='${headSrc}' style='border-radius: ' /><span class='name'>AI bot</span><div class="markdown-body md">${marked.parse(str)}</div></div>`;
+	}
+
+    upView(html, number);
     return highlightcode(md);
 }
 
@@ -113,18 +120,27 @@ const ask = (headSrc, str, bool) => {
     }else{
         add_time = '';
     }
-    var html = `<div class='ask'>${add_time}<div class='msg'><img src='${headSrc}' style='border-radius: ' /><div class="markdown-body md">${str}</div></div></div>`;
+    let html = `<div class='ask'>${add_time}<div class='msg'><img src='${headSrc}' style='border-radius: ' /><div class="markdown-body md">${str}</div></div></div>`;
     //return upView(html);
     handleBot(str, type=2, datetime);
-    return upView(html);
+    return upView(html, 0);
 }
 
-function upView(html) {
+function upView(html, number) {
     let message = $('#message');
-    message.append(html);
-    return $('html,body').animate({
-        scrollTop: message.outerHeight() - window.innerHeight
-    }, 200);
+    if(number < 1){
+		message.append(html);
+		return $('html,body').animate({
+			scrollTop: message.outerHeight() - window.innerHeight
+		}, 200);
+	}else{
+		let len =$('#message')[0].children.length
+		$('#message')[0].children[len-1].innerHTML = html;
+		//highlightcode(md);
+		$('html,body').animate({
+			scrollTop : document.querySelector('#message').scrollHeight - window.innerHeight
+		}, 50);
+	}
 }
 
 function send (msg) {
@@ -280,12 +296,16 @@ function handleBot(question, type, datetime) {
 	} else if (type === 2) {
 		updateAigcfunKey();
 		let useKeyTime = localStorage.getItem("useKeyTime") ? localStorage.getItem("useKeyTime") : 0;
+		//$('#my-modal-loading').modal('close');
+		let str_merge = '';
+		let num = 0;
 
 		$.ajax({
 			method: "POST",
 			url: "https://api.aigcfun.com/api/v1/text?key=" + localStorage.getItem("aigcfunkey"),
 			headers: {
-				"Content-Type": "application/json"
+				"Content-Type": "application/json",
+				'Accept': 'text/event-stream',
 			},
 			data: JSON.stringify({
 				messages: [{
@@ -299,28 +319,61 @@ function handleBot(question, type, datetime) {
 				],
 				tokensLength: q.length + 10,
 				model: "gpt-3.5-turbo",
-				stream:false
+				stream:true // 将 stream 设置为 true 以接收流数据
 
 			}),
+			xhrFields: {
+
+				onprogress: function(e) {
+					if (e.lengthComputable) {
+						var percentComplete = (e.loaded / e.total) * 100;
+						console.log("下载进度：" + percentComplete.toFixed(2) + "%");
+					}
+					else{
+						if(num < 1){
+							$('#my-modal-loading').modal('close');
+							$(".tit").html("AI Chat");
+						}
+						//console.log("实时接收到数据：" + e.target.responseText);
+						let arr_data =e.target.responseText.split('data:')
+						let arr_length = arr_data.length
+						str_merge = '';
+						for (let index = 2; index < arr_length-1; index++) {
+							let alone_json = JSON.parse(arr_data[index]);
+							if(alone_json.choices[0].finish_reason == null){
+								let str_content = alone_json.choices[0].delta.content
+								str_merge = str_merge + str_content
+							}
+						}
+						//console.log(str_merge)
+						reply("./images/bot.png", str_merge, num);
+						num = num+1
+					}
+				}
+			},
 			success: (data) => {
-				if (data.choices[0].finish_reason === 'length') { // 支持长回复
-					console.log(true)
-				  }
-				console.log(data.choices[0].text);
+				let ans
+				if (typeof(data)=='object') {
+					//hideWait()
+					$('#my-modal-loading').modal('close');
+					//console.log(data.choices[0].text);
+					ans = data.choices[0].text;
+					reply("./images/bot.png", ans, 0);
+					$(".tit").html("AI Chat");
+					
+				} 
+				else if(typeof(data)=='string'){
+					ans = str_merge
+				}
+
 				localStorage.setItem("useKeyTime", useKeyTime > 8 ? 0 : Number(useKeyTime) + 1);
 				//Save History
-				let ans = data.choices[0].text;
 				try {
 					saveHistory(question, ans, datetime);
 				} catch (e) {
 					//TODO handle the exception
 				}
 
-				reply("./images/bot.png", ans);
-                $(".tit").html("AI Chat");
-
-				//hideWait()
-				$('#my-modal-loading').modal('close');
 				if (ans.indexOf("已达上限") !== -1 || ans.indexOf("有效的key") !== -1) {
 					localStorage.removeItem("useKeyTime")
 					updateAigcfunKey();
