@@ -299,7 +299,7 @@ function handleBot(question, type, datetime) {
 				],
 				tokensLength: q.length + 10,
 				model: "gpt-3.5-turbo",
-				stream:true
+				stream:false
 
 			}),
 			success: (data) => {
