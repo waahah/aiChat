@@ -300,3 +300,35 @@ pre {
     border: 1px solid #dedede;
     border-radius: 0;
 }
+
+/* 关于 */
+.main {
+	background-color: #ffffff;
+	width: 90%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 24px 5px 24px 25px;
+	padding-bottom: 100px;
+}
+.content-title {
+	text-align: left;
+	font-size: 20px;
+}
+.desc {
+	text-align: left;
+	font-size: 16px;
+}
+div ul li {
+	text-align: left;
+	font-size: 16px;
+}
+.orderly-list-item {
+	position: relative;
+}
+.orderly-list-item-desc {
+	display: inline-block;
+	position: relative;
+	font-size: 16px;
+	left: 0em;
+	padding-right: 2em;
+}
